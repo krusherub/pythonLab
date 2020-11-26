@@ -1,0 +1,157 @@
+import tkinter
+from tkinter import *
+from tkinter.filedialog import asksaveasfile, askopenfile
+from tkinter.messagebox import showerror
+from tkinter import messagebox
+import math
+
+FILE_NAME = "test.txt"
+
+def new_file():
+	text.delete("1.0",END)
+
+def save_file():
+	data = text.get("1.0", END)
+	out = open(FILE_NAME,"w")
+	out.write(data)
+	out.close()
+
+def save_as():
+	out = asksaveasfile(mode = "w", defaultextension ="txt")
+	data = text.get('1.0', END)
+	try:
+		out.write(data.rstrip())
+	except Exception:
+		return 
+
+def open_file():
+	global FILE_NAME
+	inp = askopenfile(mode="r")
+	if inp is None:
+		return
+	FILE_NAME = inp.name
+	data = inp.read()
+	text.delete('1.0', END)
+	text.insert('1.0', data)
+
+def info():
+	messagebox.showinfo("Info","Made by Brazhnik Olexandr, Nikitchenko Nazar, Shevchuk Oleg")
+
+def task35():
+	data = text.get("1.0",END)
+
+	if(data[0] == " "):
+		showerror(title="Error", message="The word must start with letter")
+		return
+	result = ""
+
+	for i in range(len(data)-1):
+		if (data[i] == " "):
+
+			text.delete('1.0', END)
+			text.insert("1.0",result)
+			break
+		result += data[i]
+
+
+	a = result[::-1]
+	if result.upper() == a.upper():
+		messagebox.showinfo("Result", result + " - palindrome")
+	else:
+		messagebox.showinfo("Result", result + " - not a palindrome")
+
+def task3():
+	numbers = [0,1,2,3,4,5,6,7,8,9]
+	data = text.get("1.0", END)
+	print(len(data))
+	if (len(data) != 2):
+		showerror(title="Error", message="Input only one number")
+		return
+	dig = data[0]
+	if(dig.isdigit() == False):
+		showerror(title="Error", message="You can input only numbers")
+		return
+	dig = int(dig)
+
+	for i in range(len(numbers)):
+		if(numbers[i] == dig and i !=9):
+			next = numbers[i+1]
+			messagebox.showinfo("Result", "Next - " + str(next))
+			return
+		if (numbers[i] == dig):
+			next = numbers[0]
+			messagebox.showinfo("Result", "Next - " + str(next))
+			return
+
+def task61():
+	alphabet =[
+		'А', 'а','Б', 'б','В', 'в','Г', 'г','Ґ', 'ґ','Д', 'д','Е', 'е','Є', 'є','Ж', 'ж','З', 'з','И', 'и','І', 'і',
+		'Ї', 'ї','Й', 'й','К', 'к','Л', 'л','М', 'м','Н', 'н','О', 'о','П', 'п','Р', 'р','С', 'с','Т', 'т','У', 'у',
+		'Ф', 'ф','Х', 'х','Ц', 'ц','Ч', 'ч','Ш', 'ш','Щ', 'щ','Ь', 'ь','Ю', 'ю','Я', 'я'];
+	data = text.get("1.0","2.0")
+	if(len(data) < 61):
+		showerror(title="Error", message="You must write at least 60 symbols in the first line")
+		return
+	result =""
+	for i in range(60):
+		result += data[i]
+	result+="\n"
+	text.delete('1.0', END)
+	text.insert("1.0", result)
+	result1 = ""
+	for val in result:
+		sum = 0
+		for letter in alphabet:
+			if(val == letter ):
+				result1+="-"
+				sum+=1
+				break
+		if(sum == 0):
+			result1+=" "
+	text.insert("2.0", result1)
+
+
+
+
+root = Tk()
+root.title("Lab 6-7")
+
+root.minsize(width=700, height=500)
+
+
+
+
+text = Text(root, width=400, height=500,bg = "LightCyan")
+
+scrollb = Scrollbar(root, orient=VERTICAL, command=text.yview)
+#scrollb2 = Scrollbar(root, orient=HORIZONTAL, command=text.xview)
+scrollb.pack(side="right", fill="y")
+#scrollb2.pack(side="bottom", fill="x")
+text.configure(yscrollcommand=scrollb.set)
+#text.configure(xscrollcommand=scrollb2.set)
+
+text.pack()
+menu_bar = Menu()
+menu_bar2 = Menu()
+file_menu = Menu(menu_bar)
+brazhnik_menu = Menu(menu_bar2)
+
+menu_bar.add_cascade(label="File", menu=file_menu)
+menu_bar.add_cascade(label="Info", command=info)
+menu_bar.add_cascade(label="Brazhnik", menu=brazhnik_menu)
+
+
+file_menu.add_command(label="New", command=new_file)
+file_menu.add_command(label="Open", command=open_file)
+file_menu.add_command(label="Save", command=save_file)
+file_menu.add_command(label="Save as", command=save_as)
+file_menu.add_separator()
+file_menu.add_command(label="Exit", command=root.quit)
+
+brazhnik_menu.add_command(label="Task3", command=task3)
+brazhnik_menu.add_command(label="Task35", command=task35)
+brazhnik_menu.add_command(label="Task61", command=task61)
+
+
+root.config(menu=menu_bar)
+root.mainloop()
