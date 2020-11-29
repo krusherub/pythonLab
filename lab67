@@ -35,7 +35,7 @@ def open_file():
 	text.insert('1.0', data)
 
 def info():
-	messagebox.showinfo("Info","Made by Brazhnik Olexandr, Nikitchenko Nazar, Shevchuk Oleg")
+	messagebox.showinfo("Info","Made by Brazhnik Olexandr")
 
 def task35():
 	data = text.get("1.0",END)
@@ -63,7 +63,6 @@ def task35():
 def task3():
 	numbers = [0,1,2,3,4,5,6,7,8,9]
 	data = text.get("1.0", END)
-	print(len(data))
 	if (len(data) != 2):
 		showerror(title="Error", message="Input only one number")
 		return
@@ -109,6 +108,29 @@ def task61():
 		if(sum == 0):
 			result1+=" "
 	text.insert("2.0", result1)
+def task17():
+	def str_task17(event):
+		s = ent.get()
+		if(len(s) != 3 or s.isdigit() == False):
+			lab['text'] = "The number is wrong"
+			return
+		c2 = s[0]
+		c1 = s[1]
+		c0 = s[2]
+		lab['text'] = "c2 = " +c2+ " c1 = " +c1 + " c0 = " +c0
+	root1 = Tk()
+
+	ent = Entry(root1,width=50,)
+	but = Button(root1,text="Transform")
+	lab = Label(root1,width=50, bg='black', fg='LightCyan')
+
+	but.bind('<Button-1>', str_task17)
+
+	ent.pack()
+	but.pack()
+	lab.pack()
+	root1.mainloop()
+
 
 
 
@@ -121,7 +143,8 @@ root.minsize(width=700, height=500)
 
 
 
-text = Text(root, width=400, height=500,bg = "LightCyan")
+text = Text(root, width=250, height=500,bg = "LightCyan")
+
 
 scrollb = Scrollbar(root, orient=VERTICAL, command=text.yview)
 #scrollb2 = Scrollbar(root, orient=HORIZONTAL, command=text.xview)
@@ -151,6 +174,7 @@ file_menu.add_command(label="Exit", command=root.quit)
 brazhnik_menu.add_command(label="Task3", command=task3)
 brazhnik_menu.add_command(label="Task35", command=task35)
 brazhnik_menu.add_command(label="Task61", command=task61)
+brazhnik_menu.add_command(label="Task16-17", command=task17)
 
 
 root.config(menu=menu_bar)
